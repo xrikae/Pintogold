@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <!-- Google Fonts (Sarabun) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons CDN -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blueDark: '#070d1e',
+                            blue: '#0d1838',
+                            blueLight: '#162454',
+                            copper: '#c5832b',
+                            copperLight: '#e5ad58',
+                            copperGlow: '#f3d08c',
+                            brown: '#8c5319',
+                            btnNav: '#111e38'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS for Glassmorphism and Animations -->
+    <style>
+        body {
+            /* พื้นหลังไล่สี ขาว - ทองอ่อน */
+            background: linear-gradient(135deg, #ffffff 0%, #fdf5e6 50%, #f3d08c 100%);
+            background-attachment: fixed;
+            color: #1a202c;
+            font-family: 'Sarabun', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(197, 131, 43, 0.3);
+            box-shadow: 0 15px 35px rgba(197, 131, 43, 0.15);
+        }
+
+        .glass-nav-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(197, 131, 43, 0.2);
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #c5832b 0%, #e5ad58 50%, #8c5319 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-top: 0.25em;
+            padding-bottom: 0.25em;
+            line-height: 1.5;
+        }
+
+        .text-gradient-dark {
+            background: linear-gradient(180deg, #070d1e 0%, #162454 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-top: 0.25em;
+            padding-bottom: 0.25em;
+            line-height: 1.5;
+        }
+
+        .bg-grid-pattern {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgxOTcsIDEzMSwgNDMsIDAuMTUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #fdf5e6; }
+        ::-webkit-scrollbar-thumb { background: #c5832b; border-radius: 4px; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+    </style>
+</head>
+<body class="relative min-h-screen leading-relaxed">
+
+    <div class="fixed inset-0 bg-grid-pattern opacity-50 pointer-events-none z-0"></div>
+    <div class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-brand-copperLight/20 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-white/60 rounded-full blur-[160px] pointer-events-none z-0"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 glass-nav-custom shadow-md">
+        <div class="max-w-7xl mx-auto px-4 lg:px-6 py-3 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="h-11 w-11 rounded-xl overflow-hidden border border-brand-copper/30 bg-white p-0.5 shadow-sm group-hover:scale-105 transition-transform">
+                    <img src="pinto.png" alt="PINTO GOLD Logo" class="w-full h-full object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-wider text-brand-blueDark hidden sm:block">PINTO GOLD</span>
+            </a>
+            
+            <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-700">
+                <a href="#problem" class="hover:text-brand-copper transition-colors">Problem <span class="text-xs font-normal text-slate-500">(ปัญหา)</span></a>
+                <a href="#persona" class="hover:text-brand-copper transition-colors">Persona <span class="text-xs font-normal text-slate-500">(ผู้ใช้งาน)</span></a>
+                <a href="#flow" class="hover:text-brand-copper transition-colors">User Flow <span class="text-xs font-normal text-slate-500">(การทำงาน)</span></a>
+                <a href="#features" class="hover:text-brand-copper transition-colors">Features <span class="text-xs font-normal text-slate-500">(ฟังก์ชัน)</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 pt-36 pb-20 px-6">
+        <div class="max-w-5xl mx-auto text-center reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-copper/10 border border-brand-copper/20 text-brand-copper text-xs font-semibold tracking-widest uppercase mb-6">
+                <i class="ph-bold ph-sparkle"></i> UI/UX Design Presentation
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-snug text-brand-blueDark">
+                แอปพลิเคชันสั่งอาหาร <br>
+                <span class="text-gradient-gold inline-block">PINTO GOLD</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-2xl mx-auto font-light mb-10 leading-relaxed">
+                “ส่งความอร่อยระดับ โกลด์ ตรงถึงมือคุณ” ออกแบบด้วยความใส่ใจในทุกขั้นตอนการใช้งานที่ลื่นไหล พร้อมระบบสั่งซื้อ สะดวก รวดเร็ว และคุ้มค่า
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                <div class="glass-card p-4 rounded-2xl text-center">
+                    <h3 class="text-2xl font-bold text-brand-copper">Fast</h3>
+                    <p class="text-base text-gray-600">สั่งง่ายในไม่กี่คลิก</p>
+                </div>
+                <div class="glass-card p-4 rounded-2xl text-center">
+                    <h3 class="text-2xl font-bold text-brand-copper">Value</h3>
+                    <p class="text-base text-gray-600">คูปอง & โปรโมชั่น</p>
+                </div>
+                <div class="glass-card p-4 rounded-2xl text-center">
+                    <h3 class="text-2xl font-bold text-brand-copper">Real-Time</h3>
+                    <p class="text-base text-gray-600">ติดตามสถานะ GPS</p>
+                </div>
+                <div class="glass-card p-4 rounded-2xl text-center">
+                    <h3 class="text-2xl font-bold text-brand-copper">Secure</h3>
+                    <p class="text-base text-gray-600">ชำระเงินปลอดภัย</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Problem -->
+    <section id="problem" class="relative z-10 py-20 px-6 border-t border-brand-copper/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-brand-copper text-base font-bold tracking-widest uppercase mb-2">Pain Points & Analysis</h2>
+                <h3 class="text-4xl md:text-5xl font-bold text-gradient-dark inline-block">Problem (วิเคราะห์ปัญหา)</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal delay-100">
+                <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:border-brand-copper/50 hover:shadow-xl transition-all bg-white/60">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-copper/10 flex items-center justify-center text-brand-copper text-2xl mb-4 border border-brand-copper/20">
+                        <i class="ph-bold ph-clock font-bold"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-brand-blueDark mb-2 leading-snug">เสียเวลาในการรอคิว</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">
+                        ลูกค้าและนักศึกษาต้องเดินทางไปซื้ออาหารเอง และเสียเวลารอคิวยาว โดยเฉพาะในช่วงเวลาเร่งด่วนมื้อเที่ยง
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:border-brand-copper/50 hover:shadow-xl transition-all bg-white/60">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-copper/10 flex items-center justify-center text-brand-copper text-2xl mb-4 border border-brand-copper/20">
+                        <i class="ph-bold ph-map-pin-line"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-brand-blueDark mb-2 leading-snug">ติดตามสถานะไม่ได้</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">
+                        ไม่ทราบว่าร้านค้าเริ่มทำอาหารหรือยัง และไม่สามารถรู้ตำแหน่งคนส่งอาหาร (Rider) ได้ว่ากำลังจัดส่งถึงไหน
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:border-brand-copper/50 hover:shadow-xl transition-all bg-white/60">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-copper/10 flex items-center justify-center text-brand-copper text-2xl mb-4 border border-brand-copper/20">
+                        <i class="ph-bold ph-tag"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-brand-blueDark mb-2 leading-snug">เปรียบเทียบราคายาก</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">
+                        ต้องสอบถามราคาหลายร้านด้วยตัวเอง ไม่ทราบว่าร้านไหนมีโปรโมชั่นหรือราคาที่เหมาะกับงบประมาณที่มี
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl relative overflow-hidden group hover:border-brand-copper/50 hover:shadow-xl transition-all bg-white/60">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-copper/10 flex items-center justify-center text-brand-copper text-2xl mb-4 border border-brand-copper/20">
+                        <i class="ph-bold ph-cloud-rain"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-brand-blueDark mb-2 leading-snug">ไม่สะดวกเดินทาง</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">
+                        ในวันที่ฝนตกหรืออากาศร้อน ร้านอาหารอยู่ไกลจากที่พักหรือมหาวิทยาลัย ทำให้ไม่สะดวกออกไปซื้ออาหารด้วยตนเอง
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Persona -->
+    <section id="persona" class="relative z-10 py-20 px-6 border-t border-brand-copper/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-brand-copper text-base font-bold tracking-widest uppercase mb-2">User Centric</h2>
+                <h3 class="text-4xl md:text-5xl font-bold text-gradient-dark inline-block">Persona (ผู้ใช้งานเป้าหมาย)</h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="glass-card rounded-3xl p-1 flex flex-col reveal delay-100">
+                    <div class="bg-white/80 p-8 rounded-[22px] w-full border border-brand-copper/20 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-copper to-brand-brown p-[2px] shadow-lg shadow-brand-copper/20">
+                                <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                                    <i class="ph-fill ph-student text-3xl text-brand-copper"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-3xl font-bold text-brand-blueDark leading-snug">น้องเอนจอย (Enjoy)</h4>
+                                <p class="text-brand-copper text-lg font-medium">นักศึกษา, อายุ 20 ปี</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-brand-copper/5 p-4 rounded-xl border border-brand-copper/10">
+                                <span class="text-sm text-brand-copper font-semibold uppercase tracking-wider block mb-1">พฤติกรรม</span>
+                                <p class="text-base text-gray-700 leading-relaxed">มีงบจำกัด ชอบความคุ้มค่า หาของกินดึกบ่อยช่วงอ่านหนังสือสอบ</p>
+                            </div>
+                            <div class="bg-brand-copper/5 p-4 rounded-xl border border-brand-copper/10">
+                                <span class="text-sm text-brand-copper font-semibold uppercase tracking-wider block mb-1">ความต้องการ</span>
+                                <p class="text-base text-gray-700 leading-relaxed">ต้องการโปรโมชั่น ส่วนลด และค่าส่งที่ถูก รวมถึงแอปที่ใช้งานง่าย สั่งได้รวดเร็ว</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-3xl p-1 flex flex-col reveal delay-200">
+                    <div class="bg-white/80 p-8 rounded-[22px] w-full border border-brand-copper/20 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-brand-copper to-brand-brown p-[2px] shadow-lg shadow-brand-copper/20">
+                                <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                                    <i class="ph-fill ph-briefcase text-3xl text-brand-copper"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-3xl font-bold text-brand-blueDark leading-snug">กลุ่มคนทำงาน / ออฟฟิศ</h4>
+                                <p class="text-brand-copper text-lg font-medium">พนักงานบริษัท, อายุ 25-40 ปี</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-brand-copper/5 p-4 rounded-xl border border-brand-copper/10">
+                                <span class="text-sm text-brand-copper font-semibold uppercase tracking-wider block mb-1">พฤติกรรม</span>
+                                <p class="text-base text-gray-700 leading-relaxed">มีเวลาพักจำกัด มักสั่งอาหารเป็นกลุ่มกับเพื่อนร่วมงานในมื้อเที่ยง</p>
+                            </div>
+                            <div class="bg-brand-copper/5 p-4 rounded-xl border border-brand-copper/10">
+                                <span class="text-sm text-brand-copper font-semibold uppercase tracking-wider block mb-1">ความต้องการ</span>
+                                <p class="text-base text-gray-700 leading-relaxed">ต้องการความรวดเร็ว ตรงเวลา ระบบที่ให้เพื่อนร่วมงานเลือกเมนูและหารค่าส่งได้สะดวก</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Flow -->
+    <section id="flow" class="relative z-10 py-20 px-6 border-t border-brand-copper/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h3 class="text-4xl md:text-5xl font-bold text-gradient-dark inline-block mb-6">User Flow (ขั้นตอนการทำงาน)</h3>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                    ภาพรวมขั้นตอนการสั่งอาหารแอปฯ PINTO GOLD ที่ถูกออกแบบมาให้ผู้ใช้งานสามารถทำรายการได้อย่างลื่นไหล ตั้งแต่การเลือกร้านค้าไปจนถึงการรอรับอาหาร
+                </p>
+            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal delay-200">
+                <div class="bg-white/60 p-6 rounded-2xl border border-brand-copper/20 hover:border-brand-copper/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 group glass-card">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-copper to-brand-brown p-[1px] mb-4">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-brand-copper font-bold text-xl group-hover:bg-brand-copper group-hover:text-white transition-colors">1</div>
+                    </div>
+                    <h4 class="text-xl text-brand-blueDark font-bold mb-2 leading-snug">เข้าสู่ระบบ & ค้นหา</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">เริ่มต้นเข้าสู่ระบบ จากนั้นค้นหาร้านค้าหรือหมวดหมู่เมนูอาหารจากหน้าแรก</p>
+                </div>
+                
+                <div class="bg-white/60 p-6 rounded-2xl border border-brand-copper/20 hover:border-brand-copper/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 group glass-card">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-copper to-brand-brown p-[1px] mb-4">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-brand-copper font-bold text-xl group-hover:bg-brand-copper group-hover:text-white transition-colors">2</div>
+                    </div>
+                    <h4 class="text-xl text-brand-blueDark font-bold mb-2 leading-snug">จัดการคำสั่งซื้อ</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">ใส่ตะกร้าสินค้า เลือกที่อยู่จัดส่งที่ต้องการ และตรวจสอบคูปองหรือส่วนลด</p>
+                </div>
+                
+                <div class="bg-white/60 p-6 rounded-2xl border border-brand-copper/20 hover:border-brand-copper/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 group glass-card">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-copper to-brand-brown p-[1px] mb-4">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-brand-copper font-bold text-xl group-hover:bg-brand-copper group-hover:text-white transition-colors">3</div>
+                    </div>
+                    <h4 class="text-xl text-brand-blueDark font-bold mb-2 leading-snug">ระบบชำระเงิน</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">สรุปยอดคำสั่งซื้อและเลือกช่องทางชำระเงินที่รองรับทั้งบัตรเครดิต/เดบิต และพร้อมเพย์</p>
+                </div>
+                
+                <div class="bg-white/60 p-6 rounded-2xl border border-brand-copper/20 hover:border-brand-copper/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-2 group glass-card">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-copper to-brand-brown p-[1px] mb-4">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-brand-copper font-bold text-xl group-hover:bg-brand-copper group-hover:text-white transition-colors">4</div>
+                    </div>
+                    <h4 class="text-xl text-brand-blueDark font-bold mb-2 leading-snug">ติดตามสถานะ</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">ติดตามสถานะแบบเรียลไทม์ตั้งแต่ร้านกำลังจัดเตรียม ระหว่างจัดส่ง จนกระทั่งรับอาหารสำเร็จ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Features -->
+    <section id="features" class="relative z-10 py-20 px-6 border-t border-brand-copper/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-brand-copper text-base font-bold tracking-widest uppercase mb-2">Core Functionalities</h2>
+                <h3 class="text-4xl md:text-5xl font-bold text-gradient-dark inline-block">Features (ฟังก์ชันการทำงาน)</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal delay-100">
+                <div class="glass-card p-8 rounded-3xl text-center bg-white/60 hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 rounded-2xl bg-white border border-brand-copper/30 mx-auto mb-6 flex items-center justify-center text-brand-copper text-3xl shadow-sm">
+                        <i class="ph-bold ph-ticket"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-brand-blueDark mb-3 leading-snug">Coupons & Discounts</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">
+                        ระบบโค้ดส่วนลดและคูปองพิเศษเพื่อความคุ้มค่าสูงสุดสำหรับกลุ่มนักศึกษาและคนทำงาน
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl text-center bg-white/60 hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 rounded-2xl bg-white border border-brand-copper/30 mx-auto mb-6 flex items-center justify-center text-brand-copper text-3xl shadow-sm">
+                        <i class="ph-bold ph-navigation-arrow"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-brand-blueDark mb-3 leading-snug">Live Order Tracking</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">
+                        ระบบติดตามสถานะการจัดส่งแบบ Real-time พร้อมแสดงตำแหน่งของ Rider บนแผนที่
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl text-center bg-white/60 hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 rounded-2xl bg-white border border-brand-copper/30 mx-auto mb-6 flex items-center justify-center text-brand-copper text-3xl shadow-sm">
+                        <i class="ph-bold ph-credit-card"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-brand-blueDark mb-3 leading-snug">Seamless Payment</h4>
+                    <p class="text-base text-gray-600 leading-relaxed">
+                        รองรับช่องทางชำระเงินที่หลากหลาย ทั้ง PromptPay, บัตรเครดิต/เดบิต และกระเป๋าเงินดิจิทัล
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Presentation & Links -->
+    <section id="presentation" class="relative z-10 py-20 px-6 border-t border-brand-copper/10">
+        <div class="max-w-5xl mx-auto text-center reveal">
+            <div class="glass-card p-10 md:p-16 rounded-3xl relative overflow-hidden border border-brand-copper/30 bg-white/70">
+                <div class="w-20 h-20 rounded-2xl bg-white p-2 mx-auto mb-6 shadow-xl border border-brand-copper/30">
+                    <img src="pinto.png" alt="PINTO GOLD" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-4xl md:text-5xl font-extrabold text-brand-blueDark mb-4 leading-snug">PINTO GOLD <br><span class="text-3xl text-brand-copper font-medium">(นำเสนอผลงาน)</span></h3>
+                <p class="text-xl text-gray-700 max-w-xl mx-auto mb-12 leading-relaxed">
+                    โครงการออกแบบระบบแอปพลิเคชันสั่งอาหาร Pinto Gold ดำเนินการวิเคราะห์และพัฒนารูปแบบ UI/UX เพื่อตอบโจทย์ผู้ใช้งานจริงอย่างมีประสิทธิภาพ
+                </p>
+                
+                <!-- กล่องปุ่มลิงก์โปรเจกต์ 2 อัน -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12">
+                    
+                    <!-- Button 1: Prototype -->
+                    <a href="https://www.figma.com/design/1Or9fuioDzgiOzhUBpkbPj/%25E0%25B9%2581%25E0%25B8%25AD%25E0%25B8%259B-Pinto-Gold?node-id=0-1&p=f" target="_blank" class="group flex items-center justify-center gap-4 px-6 py-5 rounded-2xl bg-gradient-to-r from-brand-copper to-brand-copperLight text-white hover:shadow-[0_10px_25px_rgba(197,131,43,0.3)] transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-3xl">
+                            <i class="ph-bold ph-link"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="block text-sm font-bold uppercase tracking-widest opacity-90 mb-0.5">View Design</span>
+                            <span class="block text-xl font-extrabold">Prototype Link</span>
+                        </div>
+                    </a>
+
+                    <!-- Button 2: Google Drive (อัปเดตลิงก์แล้ว) -->
+                    <a href="https://drive.google.com/drive/folders/1weeP-N-HD7YxsZYLzEWK3F0arpKnodVR?usp=sharing" target="_blank" class="group flex items-center justify-center gap-4 px-6 py-5 rounded-2xl border border-brand-copper/40 bg-white text-brand-blueDark hover:border-brand-copper hover:shadow-[0_10px_25px_rgba(197,131,43,0.15)] transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-full bg-brand-copper/10 text-brand-copper flex items-center justify-center text-3xl group-hover:bg-brand-copper group-hover:text-white transition-colors">
+                            <i class="ph-bold ph-folder-notch-open"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="block text-sm font-bold uppercase tracking-widest text-brand-copper opacity-90 mb-0.5">View Files</span>
+                            <span class="block text-xl font-extrabold">Google Drive Link</span>
+                        </div>
+                    </a>
+
+                </div>
+
+                <!-- ปุ่มกลับสู่หน้าแรก -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#overview" class="px-8 py-3 rounded-full bg-white border border-brand-copper/30 text-brand-blueDark shadow-sm font-medium text-base hover:bg-gray-50 hover:border-brand-copper transition-all">
+                        กลับสู่หน้าแรก
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-10 border-t border-brand-copper/20 text-center text-sm text-gray-600 bg-white/30 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <img src="pinto.png" alt="PINTO GOLD" class="h-8 w-8 object-contain bg-white rounded-md p-0.5 border border-gray-200">
+                <span class="text-brand-blueDark font-semibold text-base">PINTO GOLD</span>
+                <span class="text-sm text-gray-500">UI/UX Project Presentation</span>
+            </div>
+            <div class="flex flex-col items-end text-sm">
+                <p class="mb-1 text-gray-700">© 2026 Pinto Gold. All rights reserved.</p>
+                <p class="text-brand-copper font-medium">จัดทำโดย: ทีมงานหูดับ OB | สาขาคอมพิวเตอร์ธุรกิจดิจิทัล</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal JavaScript Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const reveals = document.querySelectorAll(".reveal");
+
+            function revealOnScroll() {
+                const windowHeight = window.innerHeight;
+                reveals.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 100;
+                    if (elementTop < windowHeight - elementVisible) {
+                        element.classList.add("active");
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
+</body>
+</html>
